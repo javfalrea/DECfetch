@@ -83,25 +83,25 @@
                   <h3 class="text-center mb-4">Registro de Producto</h3>
 
                   <div class="mb-3">
-                    <label for="nombreRegistro" class="form-label"
+                    <label for="nombreArticulo" class="form-label"
                       >Nombre</label
                     >
                     <input
                       id="nombreRegistro"
                       type="text"
-                      name="nombreRegistro"
+                      name="nombreArticulo"
                       class="form-control"
                       required
                     />
                   </div>
 
                   <div class="mb-3">
-                    <label for="categoriaRegistro" class="form-label"
+                    <label for="categoriaArticulo" class="form-label"
                       >Categoría</label
                     >
                     <select
                       id="categoriaRegistro"
-                      name="categoriaRegistro"
+                      name="categoriaArticulo"
                       class="form-select"
                       required
                     >
@@ -117,13 +117,13 @@
 
                   <div class="row mb-4">
                     <div class="col-6">
-                      <label for="numExistenciasRegistro" class="form-label"
+                      <label for="existenciasArticulo" class="form-label"
                         >Existencias</label
                       >
                       <input
                         id="numExistenciasRegistro"
                         type="number"
-                        name="numExistenciasRegistro"
+                        name="existenciasArticulo"
                         class="form-control"
                         min="0"
                         required
@@ -131,13 +131,13 @@
                     </div>
 
                     <div class="col-6">
-                      <label for="precioRegistro" class="form-label"
+                      <label for="precioArticulo" class="form-label"
                         >Precio</label
                       >
                       <input
                         id="precioRegistro"
                         type="number"
-                        name="precioRegistro"
+                        name="precioArticulo"
                         class="form-control"
                         step="0.01"
                         min="0"
@@ -148,23 +148,33 @@
 
                   <button
                     id="botonRegistrar"
-                    type="submit"
+                    type="button"
                     class="btn btn-primary w-100"
                   >
                     Registrar Producto
                   </button>
+
+                  <button
+                    style="display: none"
+                    id="botonActualizar"
+                    type="button"
+                    class="btn btn-warning w-100"
+                  >
+                    Actualizar Producto
+                  </button>
+
                 </form>
 
                 <form id="formVenta" class="p-4 border rounded shadow-sm">
                   <h3 class="text-center mb-4">Registro de Venta</h3>
 
                   <div class="mb-3">
-                    <label for="categoriaVenta" class="form-label"
+                    <label for="categoriaArticulo" class="form-label"
                       >Categoría</label
                     >
                     <select
                       id="categoriaVenta"
-                      name="categoriaVenta"
+                      name="categoriaArticulo"
                       class="form-select"
                       required
                     >
@@ -179,10 +189,10 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="nombreVenta" class="form-label">Artículo</label>
+                    <label for="nombreArticulo" class="form-label">Artículo</label>
                     <select
                       id="nombreVenta"
-                      name="nombreVenta"
+                      name="nombreArticulo"
                       class="form-select"
                       required
                       disabled
@@ -209,13 +219,13 @@
                     </div>
 
                     <div class="col-6">
-                      <label for="unidadesVenta" class="form-label"
+                      <label for="unidadesVendidas" class="form-label"
                         >Unidades</label
                       >
                       <input
                         id="unidadesVenta"
                         type="number"
-                        name="unidadesVenta"
+                        name="unidadesVendidas"
                         class="form-control"
                         min="1"
                         required
@@ -229,19 +239,19 @@
                       type="button"
                       class="btn btn-warning"
                     >
-                      Seguir vendiendo
+                      Añadir a la cesta
                     </button>
 
                     <button
                       id="botonVenta"
-                      type="submit"
+                      type="button"
                       class="btn btn-primary"
                     >
                       Vender
                     </button>
                   </div>
                 </form>
-
+                <div id="listadoCarrito"></div>
                 <div id="infArticulos"></div>
                 <div id="infVentas"></div>
               </div>

@@ -1,5 +1,6 @@
 let articulos = [];
-let ids = [];
+let ventas = [];
+let carrito = [];
 
 const inicio = document.getElementById("inicio");
 const regArticulos = document.getElementById("regArticulos");
@@ -20,14 +21,17 @@ const unidadesVenta = document.getElementById("unidadesVenta");
 const contenido = document.getElementById("contenido");
 const formRegistro = document.getElementById("formRegistro");
 const formVenta = document.getElementById("formVenta");
+const listadoCarrito = document.getElementById("listadoCarrito");
 const infArticulos = document.getElementById("infArticulos");
 const infVentas = document.getElementById("infVentas");
 
 const botonRegistrar = document.getElementById("botonRegistrar");
+const botonActualizar = document.getElementById("botonActualizar");
 const botonVenta = document.getElementById("botonVenta");
 const botonSeguirVendiendo = document.getElementById("botonSeguirVendiendo");
 
 document.addEventListener("DOMContentLoaded", limpiarTodo);
+document.addEventListener("DOMContentLoaded", cargaInicial);
 inicio.addEventListener("click", limpiarTodo);
 regArticulos.addEventListener("click", mostrarFormRegistro);
 ventaArticulos.addEventListener("click", mostrarFormVenta);
@@ -37,6 +41,9 @@ categoriaVenta.addEventListener("change", habilitarEleccionArticulo);
 nombreRegistro.addEventListener("keyup", registrarOActualizar);
 botonVenta.addEventListener("click", registrarVenta);
 botonSeguirVendiendo.addEventListener("click", mostrarListaVendiendo);
+botonRegistrar.addEventListener("click", registrarArticulo);
+botonActualizar.addEventListener("click", actualizarArticulo);
+nombreVenta.addEventListener("change", asignarPrecio);
 
 //Limpia todos los formularios del contenido
 function limpiarTodo() {
@@ -70,6 +77,22 @@ function mostrarInformeVentas() {
     infVentas.style.display = "block";
 }
 
+//Limpia el formulario de registro
+function limpiarFormRegistro() {
+    nombreRegistro.value = "";
+    categoriaRegistro.value = "";
+    numExistenciasRegistro.value = "";
+    precioRegistro.value = "";
+}
+
+function limpiarFormVenta() {
+    nombreVenta.value = "";
+    categoriaVenta.value = "";
+    precioVenta.value = "";
+    unidadesVenta.value = "";
+}
+
+//Carga los datos en un array
 function cargaInicial() {
     fetch("http://localhost:9999/buscarTodosLosArticulos", {
         method: "GET"
@@ -79,22 +102,43 @@ function cargaInicial() {
 
     .then(respuesta => {
         articulos = respuesta;
-        for(let i=1; i<=articulos.length; i++) {
-            ids.push(i);
-        }
+    });
+
+    fetch("http://localhost:9999/buscarTodasLasVentas", {
+        method: "GET"
+    })
+
+    .then(respuesta => respuesta.json())
+
+    .then(respuesta => {
+        ventas = respuesta;
     })
 }
 
-//Cambia la lógica del botón de registro según nos interese actualizar o crear un nuevo producto
+//Cambia la lógica del botón según nos interese actualizar o crear un nuevo producto. Si el nombre del articulo
+//existe, rellena los campos con los datos almacenados en la base de datos que le corresponden.
 function registrarOActualizar() {
-    botonRegistrar.removeEventListener("click", registrarArticulo);
-    botonRegistrar.removeEventListener("click", actualizarArticulo);
-    if(articulos.find(a => a.nombreArticulo == nombreRegistro.value)) {
-        botonRegistrar.textContent = "Actualizar producto";
-            botonRegistrar.addEventListener("click", actualizarArticulo);
+
+    botonRegistrar.style.display = "none";
+    botonActualizar.style.display = "none";
+    categoriaRegistro.value = "";
+    numExistenciasRegistro.value = "";
+    precioRegistro.value = "";
+    precioRegistro.disabled = false;
+    categoriaRegistro.disabled = false;
+
+    let articulo = articulos.find(a => a.nombreArticulo == nombreRegistro.value);
+    
+    if(articulo) {
+        categoriaRegistro.value = articulo.categoriaArticulo;
+        numExistenciasRegistro.value = articulo.existenciasArticulo;
+        precioRegistro.value = articulo.precioArticulo;
+        botonActualizar.style.display = "block";
+        precioRegistro.disabled = true;
+        categoriaRegistro.disabled = true;
+        
     } else {
-        botonRegistrar.textContent = "Registrar producto";
-        botonRegistrar.addEventListener("click", registrarArticulo);
+        botonRegistrar.style.display = "block";
     }
 }
 
@@ -118,8 +162,8 @@ function registrarArticulo() {
     .then(respuesta => {
         if(respuesta == "Ok") {
             alert("Artículo registrado con éxito");
+            limpiarFormRegistro();
             articulos.push(jsonData);
-            ids.push(ids.length+1);
         } else {
             alert("No se ha podido registrar el producto");
         }
@@ -145,6 +189,7 @@ function actualizarArticulo() {
     .then(respuesta => {
         if(respuesta == "Ok") {
             alert("Artículo actualizado con éxito");
+            limpiarFormRegistro();
             let posicion = articulos.findIndex(a => a.nombreArticulo == nombreRegistro.value);
             articulos[posicion] = jsonData;
         } else {
@@ -153,7 +198,7 @@ function actualizarArticulo() {
     })
 }
 
-
+//Carga los artículos de una misma categoría en un select 
 function cargarArticulosPorCategoria(categoria) {
     nombreVenta.innerHTML = "";
     let fstOption = document.createElement("option");
@@ -167,14 +212,73 @@ function cargarArticulosPorCategoria(categoria) {
         let producto = a.nombreArticulo;
         let option = document.createElement("option");
         option.textContent = producto;
-        let posicion = articulos.findIndex(a => a.nombreArticulo == producto);
-        option.value = posicion;
+        option.value = producto;
         nombreVenta.appendChild(option);
     }
 }
 
+//Habilita la elección de artículo en las ventas
 function habilitarEleccionArticulo() {
     let categoria = categoriaVenta.value;
     nombreVenta.disabled = false;
     cargarArticulosPorCategoria(categoria);
+}
+
+//Asigna el precio asociado al artículo elegido
+function asignarPrecio() {
+    precioVenta.value = "";
+    let articulo = articulos.find(a => a.nombreArticulo == nombreVenta.value);
+    precioVenta.value = articulo.precioArticulo;
+}
+
+//Registra la venta
+function registrarVenta() {
+    for(let c of carrito) {
+        const jsonString = JSON.stringify(c);
+
+        fetch("http://localhost:9999/crearVenta", {
+            method: "POST",
+            body: jsonString,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        .then(respuesta => respuesta.text())
+
+        .then(respuesta => {
+            if(respuesta == "Ok") {
+                alert("Venta registrada con éxito");
+                limpiarFormVenta();
+                ventas.push(jsonData);
+            } else {
+                alert("No se ha podido registrar la venta");
+            }
+            carrito = [];
+        })
+    }
+    
+}
+
+function mostrarListaVendiendo() {
+    const miForm = new FormData(formVenta);
+    const venta = Object.fromEntries(miForm);
+    
+    carrito.push(venta);
+
+    let tabla = document.createElement("table");
+    let thead = document.createElement("thead");
+    let th1 = document.createElement("th");
+    th1.textContent = "Artículo";
+    thead.appendChild(th1);
+    let th2 = document.createElement("th");
+    th2.textContent = "Precio";
+    thead.appendChild(th2);
+    let th3 = document.createElement("th");
+    th3.textContent = "Unidades";
+    thead.appendChild(th3);
+    let th4 = document.createElement("th");
+    th4.textContent = "Total";
+    thead.appendChild(th4);
+
 }
