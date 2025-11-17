@@ -22,6 +22,7 @@ const contenido = document.getElementById("contenido");
 const formRegistro = document.getElementById("formRegistro");
 const formVenta = document.getElementById("formVenta");
 const listadoCarrito = document.getElementById("listadoCarrito");
+const tbody = document.getElementById("tbody");
 const infArticulos = document.getElementById("infArticulos");
 const infVentas = document.getElementById("infVentas");
 
@@ -254,6 +255,8 @@ function registrarVenta() {
             } else {
                 alert("No se ha podido registrar la venta");
             }
+            tbody.innerHTML = "";
+            listadoCarrito.style.display = "none";
             carrito = [];
         })
     }
@@ -266,19 +269,20 @@ function mostrarListaVendiendo() {
     
     carrito.push(venta);
 
-    let tabla = document.createElement("table");
-    let thead = document.createElement("thead");
-    let th1 = document.createElement("th");
-    th1.textContent = "Artículo";
-    thead.appendChild(th1);
-    let th2 = document.createElement("th");
-    th2.textContent = "Precio";
-    thead.appendChild(th2);
-    let th3 = document.createElement("th");
-    th3.textContent = "Unidades";
-    thead.appendChild(th3);
-    let th4 = document.createElement("th");
-    th4.textContent = "Total";
-    thead.appendChild(th4);
+    listadoCarrito.style.display = "block";
+
+    let tr = document.getElementById("tr");
+    let td1 = document.getElementById("td");
+    td1.textContent = venta.nombreArticulo;
+    tr.appendChild(td1);
+    let td2 = document.getElementById("td");
+    td2.textContent = venta.precioArticulo;
+    tr.appendChild(td2);
+    let td3 = document.getElementById("td");
+    td3.textContent = venta.existenciasArticulo;
+    tr.appendChild(td3);
+    let td4 = document.getElementById("td");
+    td4.textContent = (venta.precioArticulo * venta.existenciasArticulo);
+    tr.appendChild(td4);
 
 }
