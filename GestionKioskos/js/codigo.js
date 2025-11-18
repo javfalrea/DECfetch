@@ -248,41 +248,46 @@ function registrarVenta() {
         .then(respuesta => respuesta.text())
 
         .then(respuesta => {
-            if(respuesta == "Ok") {
-                alert("Venta registrada con éxito");
-                limpiarFormVenta();
-                ventas.push(jsonData);
-            } else {
+            if(respuesta != "Ok") {
                 alert("No se ha podido registrar la venta");
-            }
-            tbody.innerHTML = "";
-            listadoCarrito.style.display = "none";
-            carrito = [];
+                return;
+            }      
         })
     }
+
+    alert("Venta registrada con éxito");
+    ventas.push(carrito);
+    tbody.innerHTML = "";
+    listadoCarrito.style.display = "none";
+    carrito = [];
     
 }
 
+
+//Va añadiendo articulos al carrito mostrándolos en una tabla
 function mostrarListaVendiendo() {
-    const miForm = new FormData(formVenta);
-    const venta = Object.fromEntries(miForm);
+
+    const venta = {idVentas: ventas.length, nombreArticulo: nombreVenta.value, unidadesVendidas: unidadesVenta.value, precioVenta: precioVenta.value}
     
     carrito.push(venta);
 
     listadoCarrito.style.display = "block";
 
-    let tr = document.getElementById("tr");
-    let td1 = document.getElementById("td");
+    let tr = document.createElement("tr");
+    let td1 = document.createElement("td");
     td1.textContent = venta.nombreArticulo;
     tr.appendChild(td1);
-    let td2 = document.getElementById("td");
-    td2.textContent = venta.precioArticulo;
+    let td2 = document.createElement("td");
+    td2.textContent = venta.precioVenta;
     tr.appendChild(td2);
-    let td3 = document.getElementById("td");
-    td3.textContent = venta.existenciasArticulo;
+    let td3 = document.createElement("td");
+    td3.textContent = venta.unidadesVendidas;
     tr.appendChild(td3);
-    let td4 = document.getElementById("td");
-    td4.textContent = (venta.precioArticulo * venta.existenciasArticulo);
+    let td4 = document.createElement("td");
+    td4.textContent = (parseFloat(venta.precioVenta) * parseFloat(venta.unidadesVendidas)).toFixed(2) //Este último método redondea hasta el decimal marcado
     tr.appendChild(td4);
 
+    tbody.appendChild(tr);
+
+    limpiarFormVenta();
 }
