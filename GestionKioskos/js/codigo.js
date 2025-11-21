@@ -24,7 +24,10 @@ const formVenta = document.getElementById("formVenta");
 const listadoCarrito = document.getElementById("listadoCarrito");
 const tbody = document.getElementById("tbody");
 const infArticulos = document.getElementById("infArticulos");
+const tbodyIA = document.getElementById("tbodyIA");
 const infVentas = document.getElementById("infVentas");
+const tbodyIV = document.getElementById("tbodyIV");
+const total = document.getElementById("total");
 
 const botonRegistrar = document.getElementById("botonRegistrar");
 const botonActualizar = document.getElementById("botonActualizar");
@@ -52,6 +55,7 @@ function limpiarTodo() {
     formVenta.style.display = "none";
     infArticulos.style.display = "none";
     infVentas.style.display = "none";
+    listadoCarrito.style.display = "none";
 }
 
 //Muestra el únicamente el formulario de registro
@@ -248,15 +252,16 @@ function registrarVenta() {
         .then(respuesta => respuesta.text())
 
         .then(respuesta => {
-            if(respuesta != "Ok") {
+            if(respuesta == "Ok") {
+                ventas.push(c);
+            } else {
                 alert("No se ha podido registrar la venta");
                 return;
-            }      
+            }   
         })
     }
 
     alert("Venta registrada con éxito");
-    ventas.push(carrito);
     tbody.innerHTML = "";
     listadoCarrito.style.display = "none";
     carrito = [];
