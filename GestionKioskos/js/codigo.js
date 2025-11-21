@@ -272,7 +272,7 @@ function registrarVenta() {
 //Va añadiendo articulos al carrito mostrándolos en una tabla
 function mostrarListaVendiendo() {
 
-    const venta = {idVentas: (ventas.length+1), nombreArticulo: nombreVenta.value, unidadesVendidas: unidadesVenta.value, precioVenta: precioVenta.value}
+    const venta = {idVentas: ventas.length, nombreArticulo: nombreVenta.value, unidadesVendidas: unidadesVenta.value, precioVenta: precioVenta.value}
     
     carrito.push(venta);
 
@@ -295,4 +295,82 @@ function mostrarListaVendiendo() {
     tbody.appendChild(tr);
 
     limpiarFormVenta();
+}
+
+//Muestra el informe de artículos
+function mostrarInformeArticulos() {
+
+    limpiarTodo();
+    tbodyIA.innerHTML = "";
+    infArticulos.style.display = "block";
+
+    for(let a of articulos) {
+        let tr = document.createElement("tr");
+
+        if(a.existenciasArticulo <= 10) {
+            tr.style.backgroundColor = "red";
+        } else {
+            tr.style.backgroundColor = "green";
+        }
+        let td1 = document.createElement("td");
+        td1.textContent = a.nombreArticulo;
+        tr.appendChild(td1);
+        let td2 = document.createElement("td");
+        td2.textContent = a.categoriaArticulo;
+        tr.appendChild(td2);
+        let td3 = document.createElement("td");
+        td3.textContent = a.existenciasArticulo;
+        tr.appendChild(td3);
+        tbodyIA.appendChild(tr);
+    }
+    
+}
+
+//Muestra el informe de ventas
+function mostrarInformeVentas() {
+
+    limpiarTodo();
+    tbodyIV.innerHTML = "";
+    infVentas.style.display = "block";
+
+    let sumaTotal = 0;
+    
+    for(let vs of crearArrayArrays(ventas)) {
+        let suma = 0;
+
+        for(let v of vs) {
+            suma += (parseFloat(v.precioVenta) * parseFloat(v.unidadesVendidas));
+        }
+
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        td1.textContent = vs[0].idVentas;
+        tr.appendChild(td1);
+        let td2 = document.createElement("td");
+        td2.textContent = suma.toFixed(2);
+        tr.appendChild(td2);
+        tbodyIV.appendChild(tr);
+
+        sumaTotal += suma;
+    }
+
+    total.textContent = "Total: " + sumaTotal.toFixed(2);
+
+}
+
+
+
+//Crea un array de arrays de objetos venta
+function crearArrayArrays(ventas) {
+    let idAnterior = -1;
+    let ventas2 = [];
+    for(let venta of ventas) {
+        if(venta.idVentas != idAnterior) {
+            let array = ventas.filter(v => v.idVentas == venta.idVentas);
+            ventas2.push(array);
+            idAnterior = venta.idVentas;
+        } 
+    }
+
+    return ventas2;
 }
