@@ -267,7 +267,7 @@ function registrarVenta() {
 //Va añadiendo articulos al carrito mostrándolos en una tabla
 function mostrarListaVendiendo() {
 
-    const venta = {idVentas: ventas.length, nombreArticulo: nombreVenta.value, unidadesVendidas: unidadesVenta.value, precioVenta: precioVenta.value}
+    const venta = {idVentas: (ventas.length+1), nombreArticulo: nombreVenta.value, unidadesVendidas: unidadesVenta.value, precioVenta: precioVenta.value}
     
     carrito.push(venta);
 
