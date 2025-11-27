@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Examen DAW</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="estilos/estilo.css">
+</head>
+
+<body>
+
+ <div class="topnav" id="menu">
+      <a class="active" href="#">DAW</a>
+      <a href="#" id="perfil">Actualizar Perfil</a>
+      <div class="topnav-right">
+        <a href="#" id="cerrarSesion">Cerrar Sesión</a>
+      </div>
+    </div>
+
+   
+
+    <!--Formulario login app-->
+    <form id="formLoginUsuario" name="formLoginUsuario">
+      <div class="col-6 border" style="margin:20px auto 20px; padding: 20px;">
+        <h2 style="text-align: center;">Registrar Usuario</h2>
+               
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="usuarioLogin" class="col-4 col-form-label">Usuario</label> 
+          <div class="col-8">
+            <input id="usuarioLogin" name="usuarioLogin" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="contrasenaLogin" class="col-4 col-form-label">Contraseña</label> 
+          <div class="col-8">
+            <input id="contrasenaLogin" name="contrasenaLogin" type="password" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <div class="col-4">
+            <button name="btnLoginUsuario" id="btnLoginUsuario" type="button" class="btn btn-primary">iniciar Sesión</button>
+          </div>
+          <div class="col-8">
+            <a id="regUsuario" href="#">Registrate</a>
+          </div>
+        </div>
+      </div>
+    </form>
+      
+
+     <!--Formulario usado para gestionar usuarios-->
+    <form id="formUsuario" name="formUsuario">
+      <div class="col-6 border" style="margin:20px auto 20px; padding: 20px;">
+        <h2 style="text-align: center;">Gestión Usuarios</h2>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="nombre" class="col-4 col-form-label">Nombre</label> 
+          <div class="col-8">
+            <input id="nombre" name="nombre" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="Apellidos" class="col-4 col-form-label">Apellidos</label> 
+          <div class="col-8">
+            <input id="apellidos" name="apellidos" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="usuario" class="col-4 col-form-label">Usuario</label> 
+          <div class="col-8">
+            <input id="usuario" name="usuario" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="contrasena" class="col-4 col-form-label">Contraseña</label> 
+          <div class="col-8">
+            <input id="contrasena" name="contrasena" type="password" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label for="correo" class="col-4 col-form-label">Correo</label> 
+          <div class="col-8">
+            <input id="correo" name="correo" type="text" class="form-control">
+          </div>
+        </div> 
+        <div class="form-group row" style="padding-top: 15px;">
+          <div class="offset-4 col-8">
+            <button name="btnRegistrarUsuario" id="btnRegistrarUsuario" type="button" class="btn btn-primary" value="registrar">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    <script type="text/javascript" src="js/codigo.js"></script>
+</body>
+
+</html>
