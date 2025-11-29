@@ -7,11 +7,15 @@ const enlaceRegistrarse = document.getElementById("regUsuario");
 const enlacePerfil = document.getElementById("perfil");
 const enlaceCerrarSesion = document.getElementById("cerrarSesion");
 
-let nombre = document.getElementById("nombre").value;
-let apellidos = document.getElementById("apellidos").value;
-let usuario = document.getElementById("usuario").value;
-let contrasena = document.getElementById("contrasena").value;
-let correo = document.getElementById("correo").value;
+//Cuidado con definir los inputs al principio. Siempre sin el value, si no los tomará como vacío.
+const nombre = document.getElementById("nombre");
+const apellidos = document.getElementById("apellidos");
+const usuario = document.getElementById("usuario");
+const contrasena = document.getElementById("contrasena");
+const correo = document.getElementById("correo");
+
+const usuarioLogin = document.getElementById("usuarioLogin");
+const contrasenaLogin = document.getElementById("contrasenaLogin");
 
 let id = 0;
 
@@ -53,18 +57,26 @@ function mostrarActualizacion() {
     botonRegistro.textContent = "Actualizar";
 }
 
-//Entra con cualquier campo de busqueda no vacío. No pilla los campos de búsqueda bien creo.
-function logearUsuario() {
+function limpiarInputsRegistro() {
+    nombre.value = "";
+    apellidos.value = "";
+    usuario.value = "";
+    contrasena.value = "";
+    correo.value = "";
+}
 
-    const usuarioLogin = document.getElementById("usuarioLogin").value;
-    const contrasenaLogin = document.getElementById("contrasenaLogin").value;
+function limpiarInputsLog() {
+    usuarioLogin.value = "";
+    contrasenaLogin.value = "";
+}
+
+function logearUsuario() {
 
     if(usuarioLogin === "" || contrasenaLogin === "") {
         alert("No puede haber ningún campo vacío");
     } else {
 
-        //Aquí es donde parece estar el problema pero no sé solucionarlo.
-        fetch("http://localhost:9999/buscarUsuarioPorLogin?usuario=" + usuarioLogin + "&contrasena=" + contrasenaLogin, {
+        fetch("http://localhost:9999/buscarUsuarioPorLogin?usuario=" + usuarioLogin.value + "&contrasena=" + contrasenaLogin.value, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -75,43 +87,42 @@ function logearUsuario() {
 
         .then(r => {
 
-            if (r == []) {
+            const user = r[0];
+            
+            if(!user) {
                 alert("Usuario o contraseñas incorrecto");
             } else {
-                id = r.id;
-                nombre = r.nombre;
-                apellidos = r.nombre;
-                usuario = r.usuario;
-                contrasena = r.contrasena;
-                correo = r.correo;
+                id = user.id;
+                nombre.value = user.nombre;
+                apellidos.value = user.apellidos;
+                usuario.value = user.usuario;
+                contrasena.value = user.contrasena;
+                correo.value = user.correo;
 
                 mostrarPerfil();
             }
+
+            limpiarInputsLog();
+
         })
 
     }       
 }
 
 
-//Crea o actualiza el usuario según el value de nuestro botón de registro, que cambia según el formulario que se muestra.
 function crearOActualizarUsuario() {
-
-    let nombre = document.getElementById("nombre").value;
-    let apellidos = document.getElementById("apellidos").value;
-    let usuario = document.getElementById("usuario").value;
-    let contrasena = document.getElementById("contrasena").value;
-    let correo = document.getElementById("correo").value;
         
-    if(nombre === "" || apellidos === "" || usuario === "" || contrasena === "" || correo === "") {
+    if(nombre.value === "" || apellidos.value === "" || usuario.value === "" || contrasena.value === "" || correo.value === "") {
         alert("Hay campos vacíos, por favor rellénelos");
         return;
     }
 
     const miForm = new FormData(formGestion);
     const jsonData = Object.fromEntries(miForm);
-    const jsonString = JSON.stringify(jsonData);
 
     if(botonRegistro.value === "registrar") {
+
+        const jsonString = JSON.stringify(jsonData);
 
         fetch("http://localhost:9999/crearUsuario", {
             method: "POST",
@@ -126,19 +137,20 @@ function crearOActualizarUsuario() {
         .then(r => {
             if(r === "Ok") {
                 alert("Usuario registrado correctamente");
-                limpiarFormularioRegistro();
-                mostrarLogin();
             } else {
                 alert("No ha podido registrarse el usuario correctamente");
             }
         })
 
+
     } else if(botonRegistro.value === "actualizar") {
 
-        //No sé si es correcto pero como el logueo no me lo está haciendo bien, no me devuelve el id bien.
+        jsonData.id = id;
+        const jsonString = JSON.stringify(jsonData);
+
         fetch("http://localhost:9999/actualizarUsuario", {
             method: "PUT",
-            body: jsonString, id,
+            body: jsonString,
             headers: {
                 "Content-Type": "application/json"
             }
@@ -154,9 +166,10 @@ function crearOActualizarUsuario() {
             }
         })
 
+
     }
 
-    
-    
+    limpiarInputsRegistro();
+    mostrarLogin();
 
 }
