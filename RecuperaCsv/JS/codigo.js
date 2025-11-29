@@ -11,7 +11,7 @@ function mostrarTabla() {
     .then(response => response.text())
 
     .then(data => {
-        let arrayDatosPorFila = data.split("\n").slice(1);
+        let arrayDatosPorFila = data.split("\n").slice(1, -1);
     
         for(let fila of arrayDatosPorFila) {
             let tr = document.createElement("tr");
@@ -45,11 +45,33 @@ function mostrarTabla() {
 }
 
 function insertarDatos() {
+
     for(let o of organizaciones) {
-        fetch("https://localhost:9999/crearOrganizacion?id=" + o.id + "&tipo=" + o.tipo + "&localizacion=" + o.localizacion + "&nombre=" + nombre, {
-            method: "POST"
+
+        const organizacion = {id: o.id, tipo: o.tipo, localizacion: o.localizacion, nombre: o.nombre};
+        jsonString = JSON.stringify(organizacion);
+
+        fetch("http://localhost:9999/crearOrganizacion", {
+            method: "POST",
+            body: jsonString,
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
 
-        .then(response => response.j)
+        .then(response => response.text())
+
+        .then(r => {
+            
+            if(r !== "Ok") {
+                alert("Ha habido errores al añadir las organizaciones, revisa la consola.");
+                console.log("No se ha podido insertar la organización con id: " + o.id + ". Las anteriores a esta sí se han creado.");
+                return;
+            }
+
+        })
     }
+
+    alert("Se han añadido correctamente todas las organizaciones.");
+    
 }
