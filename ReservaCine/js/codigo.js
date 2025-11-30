@@ -19,6 +19,7 @@ function buscarReservasPorFecha() {
     .then(respuesta => {
         reservas = respuesta;
         horaReserva.value = "";
+        tablaButacas.innerHTML = "";
     })
 
 }
@@ -112,6 +113,17 @@ function gestionarReservas(e) {
             if(r === "Ok") {
                 console.log("Se ha seleccionado la butaca en la fila " + e.target.dataset.row + " y columna " + e.target.dataset.col);
                 e.target.style.color = "red";
+                
+                fetch("http://localhost:9999/buscarReservaPorFecha?fechaReserva=" + fechaReserva.value, {
+                    method: "GET"
+                })
+
+                .then(respuesta => respuesta.json())
+
+                .then(respuesta => {
+                    reservas = respuesta;
+                })
+                
             } else {
                 alert("No se ha podido llevar a cabo la reserva");
             }
@@ -131,6 +143,8 @@ function gestionarReservas(e) {
             if(r === "Ok") {
                 console.log("Se ha deseleccionado la butaca en la fila " + e.target.dataset.row + " y columna " + e.target.dataset.col);
                 e.target.style.color = "blue";
+                const posicion = reservas.findIndex(r => r.idReserva == reserva.idReserva);
+                reservas.splice(posicion, 1);
             } else {
                 alert("No se ha podido cancelar la reserva");
             }
