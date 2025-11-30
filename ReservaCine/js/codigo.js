@@ -19,7 +19,7 @@ function buscarReservasPorFecha() {
     .then(respuesta => {
         reservas = respuesta;
         horaReserva.value = "";
-        tablaButacas.innerHTML = "";
+        tablaButacas.innerHTML = ""; //Esto lo ponemos porque al cambiar la fecha se mantienen las butacas con los colores de la última tabla mostrada.
     })
 
 }
@@ -112,7 +112,7 @@ function gestionarReservas(e) {
         .then(r => {
             if(r === "Ok") {
                 console.log("Se ha seleccionado la butaca en la fila " + e.target.dataset.row + " y columna " + e.target.dataset.col);
-                e.target.style.color = "red";
+                e.target.style.color = "red"; //Esto lo hacemos porque aún no llamamos al mostrarButacas, entonces aunque metamos la reserva, el color hay que cambiarlo manualmente.
                 
                 fetch("http://localhost:9999/buscarReservaPorFecha?fechaReserva=" + fechaReserva.value, {
                     method: "GET"
