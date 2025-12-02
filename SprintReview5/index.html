@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Examen DAW</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+      .capaUsuarios { 
+        height: 400px;
+        overflow-y: auto;
+        width: 100%;
+        border: 1px solid lightgrey;
+        font-weight: bold;
+
+      }
+
+      .capaMensajes {
+        height: 400px;
+        overflow-y: auto;
+        width: 100%;
+        border: 1px solid lightgrey;
+      }
+    </style>
+</head>
+
+<body>
+  <nav id="menu" class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Sprint 5</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+              <a id="cerrarSesion" class="nav-link" href="#">Cerrar Sesión</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!--Formulario usado para loguearse en la app-->
+    <form id="formularioLogin">
+      <div class="col-6 border" style="margin:20px auto 20px; padding: 20px;">
+        <h2 style="text-align: center;">Iniciar Sesión</h2>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label class="col-4 col-form-label">Usuario</label> 
+          <div class="col-8">
+            <input id="usuario" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <label class="col-4 col-form-label">Contraseña</label> 
+          <div class="col-8">
+            <input id="contrasena" type="password" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 15px;">
+          <div class="offset-4 col-8">
+            <button id="botonLogeo" type="button" class="btn btn-primary">Iniciar Sesión</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div id="foro" class="container" style="margin: 25px auto">
+      <div class="row justify-content-start">
+        <div class="col-3">
+          <div style="margin-bottom: 15px;">Usuarios:</div>
+
+          <!--Capa que contiene el listado de usuarios-->
+          <div id="listadoUsuarios" class="capaUsuarios">
+          </div>
+          
+          <!--Formulario de registro de nuevos mensajer del usuario seleccionado-->
+          <form id="registroMensajes" class="border" style="margin-top:10px">
+               <textarea id="mensaje" class="form-control" rows="5"></textarea>
+               <button id="botonMensaje" type="button" class="btn btn-primary" style="margin-top: 10px;">Nuevo Mensaje</button>
+          </form>
+        </div>
+
+        <div class="col-9">
+          <div id="encabezadoMensajes" style="margin-bottom: 15px;"></div>
+
+          <!--Capa que contiene el listado de mensajes-->
+          <div id="listadoMensajes" class="capaMensajes"> 
+          </div>
+          
+          <!--Formalarios que inserta una respuesta en la tabla respuestas-->
+          <form id="registroRespuestas">
+            <div class="form-group row" style="padding-top: 15px;">
+              <div class="col-8">
+                <input id="respuesta" type="text" class="form-control">  
+              </div>
+              <div class="col-4">
+               <button id="botonResponder" type="button" class="btn btn-primary">Responder</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+   
+   
+   
+    <script type="text/javascript" src="js/codigo.js"></script>
+</body>
+
+</html>
