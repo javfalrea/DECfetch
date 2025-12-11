@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="#">Sprint 6</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="opcionOscuro">Modo Oscuro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="opcionClaro">Modo Claro</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <div class="row justify-content-start">
+        <div class="col-3" id="divUsuarios" style="display: block; margin: 20px auto; width: 200px;">
+            <div style="margin-bottom: 15px;">Usuarios:</div>
+
+            <!--Capa que contiene el listado de usuarios-->
+            <div class="capaUsuarios" id="divTablaUsuarios">
+                <table id="tabla" class="table table-hover">
+                    <thead>
+                        <tr></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-id="1" data-usuario="Mark">Mark</td>
+                        </tr>
+                        <tr>
+                            <td data-id="2" data-usuario="Jacob">Jacob</td>
+                        </tr>
+                        <tr>
+                            <td data-id="3" data-usuario="Larry">Larry</td>
+                        </tr>
+                        <tr><td data-id="4" data-usuario="Steve">Steve</td>
+                        </tr>
+                        <tr><td data-id="5" data-usuario="Ramon">Ramon</td>
+                        </tr>
+                        <tr><td data-id="6" data-usuario="Pepe">Pepe</td>
+                        </tr>
+                        <tr>
+                            <td data-id="7" data-usuario="Encarni">Encarni</td>
+                        </tr>
+                        <tr>
+                            <td data-id="8" data-usuario="Samuel">Samuel</td>
+                        </tr>
+                        <tr>
+                            <td data-id="9" data-usuario="Emma">Emma</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+        <div class="col-9" id="divMensajes" style="border: 1px solid black; margin: 20px auto;">
+            <div id="usuarioMensajes" style="margin-bottom: 15px;">Mensajes:</div> 
+        </div>
+    </div>
+    <script src="js/codigo.js"></script>
+</body>
+</html>
